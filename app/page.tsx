@@ -24,10 +24,9 @@ const Home: React.FC = () => {
     turnOffLights
   } = useMemoryMode();
 
-  const [confirmButtonPressed, handleConfirmButtonClick] = usePatternVerification(
-    selectedMode,
-    evaluateMemoryPattern
-  );
+  const [confirmButtonPressed, handleConfirmButtonClick] = usePatternVerification({
+    evaluatePattern: evaluateMemoryPattern,
+  });
 
   const selectMode = (mode: GameMode) => {
     setSelectedMode(mode);

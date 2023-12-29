@@ -14,3 +14,6 @@ export type GameModeConfigurations = Record<GameMode, { lights: any[]; score: nu
  
 export type GamePhase = 'initial' | 'roundStart' | 'lightingButtons' | 'userInput' | 'evaluation' | 'patternGuessed' | 'gameOver' | 'confirmPattern';
 
+export type UsePatternVerificationProps = {
+    evaluatePattern: () => void; // Modify the type based on your needs
+  };
