@@ -1,11 +1,18 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { GameMode } from '../Shared/types';
+import { PlayIcon } from '@heroicons/react/24/solid';
 
 type ModeSelectionProps = {
   selectedMode: GameMode;
   onSelectMode: (mode: GameMode) => void;
 };
+
+const modes = [
+  { mode: 'challenge', label: 'Challenge' },
+  { mode: 'memory', label: 'Memory' },
+  { mode: 'score', label: 'Scoring' },
+];
 
 const ModeSelection: React.FC<ModeSelectionProps> = ({ selectedMode, onSelectMode }) => {
   const buttonVariants = {
@@ -15,36 +22,19 @@ const ModeSelection: React.FC<ModeSelectionProps> = ({ selectedMode, onSelectMod
 
   return (
     <div className="flex m-2 gap-2 m-5">
-      <motion.button
-        className={`${
-          selectedMode === 'challenge' ? 'bg-blue-500 text-white' : ''
-        } text-sm px-2 py-1 rounded cursor-pointer`}
-        onClick={() => onSelectMode('memory' as GameMode)}
-        variants={buttonVariants}
-        whileTap="tap"
-      >
-        Challenge
-      </motion.button>
-      <motion.button
-        className={`${
-          selectedMode === 'memory' ? 'bg-blue-500 text-white' : ''
-        } text-sm px-2 py-1 rounded cursor-pointer`}
-        onClick={() => onSelectMode('memory' as GameMode)}
-        variants={buttonVariants}
-        whileTap="tap"
-      >
-        Memory
-      </motion.button>
-      <motion.button
-        className={`${
-          selectedMode === 'score' ? 'bg-blue-500 text-white' : ''
-        } text-sm px-2 py-1 rounded cursor-pointer`}
-        onClick={() => onSelectMode('score' as GameMode)}
-        variants={buttonVariants}
-        whileTap="tap"
-      >
-        Scoring
-      </motion.button>
+      {modes.map(({ mode, label }) => (
+        <motion.button
+          key={mode}
+          className={`${selectedMode === mode ? 'bg-blue-500 text-white' : ''
+            } text-sm px-2 py-1 rounded cursor-pointer flex items-center`}
+          onClick={() => onSelectMode(mode as GameMode)}
+          variants={buttonVariants}
+          whileTap="tap"
+        >
+          {label}
+          <PlayIcon className="w-5 h-5 text-white-500 " role="button" />
+        </motion.button>
+      ))}
     </div>
   );
 };
