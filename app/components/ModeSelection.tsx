@@ -17,13 +17,13 @@ const ModeSelection: React.FC<ModeSelectionProps> = ({ selectedMode, onSelectMod
     <div className="flex m-2 gap-2 m-5">
       <motion.button
         className={`${
-          selectedMode === 'mission' ? 'bg-blue-500 text-white' : ''
+          selectedMode === 'challenge' ? 'bg-blue-500 text-white' : ''
         } text-sm px-2 py-1 rounded cursor-pointer`}
-        onClick={() => onSelectMode('mission' as GameMode)}
+        onClick={() => onSelectMode('memory' as GameMode)}
         variants={buttonVariants}
         whileTap="tap"
       >
-        Mission
+        Challenge
       </motion.button>
       <motion.button
         className={`${
@@ -37,9 +37,9 @@ const ModeSelection: React.FC<ModeSelectionProps> = ({ selectedMode, onSelectMod
       </motion.button>
       <motion.button
         className={`${
-          selectedMode === 'scoring' ? 'bg-blue-500 text-white' : ''
+          selectedMode === 'score' ? 'bg-blue-500 text-white' : ''
         } text-sm px-2 py-1 rounded cursor-pointer`}
-        onClick={() => onSelectMode('scoring' as GameMode)}
+        onClick={() => onSelectMode('score' as GameMode)}
         variants={buttonVariants}
         whileTap="tap"
       >

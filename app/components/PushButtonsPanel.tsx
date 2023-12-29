@@ -1,11 +1,7 @@
 import React from 'react';
+import { PushButtonsPanelProps } from '../Shared/interfaces';
 
-interface PushButtonsPanelProps {
-  lights: boolean[];
-  onButtonClick: (index: number) => void;
-}
-
-const PushButtonsPanel: React.FC<PushButtonsPanelProps> = ({ lights, onButtonClick }) => {
+const PushButtonsPanel: React.FC<PushButtonsPanelProps> = ({ lights, onButtonClick, onUserInput }) => {
   const rows = [3, 4, 3];
 
   return (
@@ -17,7 +13,13 @@ const PushButtonsPanel: React.FC<PushButtonsPanelProps> = ({ lights, onButtonCli
             return (
               <button
                 key={index}
-                onClick={() => onButtonClick(index)}
+                onClick={() => {
+                  // Only call onButtonClick if not in 'userInput' phase
+                  if (onButtonClick && onUserInput && onUserInput instanceof Function && onButtonClick instanceof Function) {
+                    onUserInput(index); // Capture user input on button click before handling button click
+                    onButtonClick(index);
+                  }
+                }}
                 style={{ backgroundColor: lights[index] ? 'yellow' : 'gray' }}
                 className="w-16 h-16 rounded-full bg-gray-500"
               />

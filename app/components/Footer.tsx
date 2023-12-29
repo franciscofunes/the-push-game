@@ -17,7 +17,7 @@ const Footer = () => {
 
   return (
     <footer className="px-4 sm:px-6 py-6 bg-white dark:bg-gray-900">
-    <div className="text-center text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-gray-500">
+    <div className="text-center text-xs sm:text-sm md:text-base lg:text-base xl:text-lg 2xl:text-xl text-gray-500">
       <span className="dark:text-gray-100 text-gray-900 font-bold mr-2">
         {" "}
         Copyright{" "}
