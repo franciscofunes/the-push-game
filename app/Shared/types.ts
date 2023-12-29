@@ -16,4 +16,6 @@ export type GamePhase = 'initial' | 'roundStart' | 'lightingButtons' | 'userInpu
 
 export type UsePatternVerificationProps = {
     evaluatePattern: () => void; // Modify the type based on your needs
+    onConfirm?: () => void; // Optional callback for handling confirmation
   };
+  

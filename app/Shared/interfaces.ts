@@ -8,3 +8,12 @@ export interface ScoreLevelSectionProps {
     score: number;
     level: number;
 }
+
+export interface ConfirmButtonProps {
+  onClick: () => void;
+}
+
+export interface ScoreLevelSectionProps {
+  score: number;
+  level: number;
+}

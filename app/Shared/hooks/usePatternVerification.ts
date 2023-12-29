@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { UsePatternVerificationProps } from '../types';
 
-const usePatternVerification = ({ evaluatePattern }: UsePatternVerificationProps): [boolean, () => void] => {
+const usePatternVerification = ({ evaluatePattern, onConfirm }: UsePatternVerificationProps): [boolean, () => void] => {
   const [confirmButtonPressed, setConfirmButtonPressed] = useState(false);
 
   const handleConfirmButtonPress = () => {

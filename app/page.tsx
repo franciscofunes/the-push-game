@@ -21,7 +21,6 @@ const Home: React.FC = () => {
     startMemoryMode,
     evaluateMemoryPattern,
     handleUserInput,
-    turnOffLights
   } = useMemoryMode();
 
   const [confirmButtonPressed, handleConfirmButtonClick] = usePatternVerification({
@@ -32,18 +31,6 @@ const Home: React.FC = () => {
     setSelectedMode(mode);
     startMemoryMode(); // Start the game when selecting a mode
   };
-
-  useEffect(() => {
-    // Logic for game effects (e.g., lights flashing)
-  
-    // Check if the confirm button is pressed and at least one light is on
-    if (confirmButtonPressed && lights.some(light => light)) {
-      // Turn off the lights when the confirm button is pressed
-      turnOffLights();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [confirmButtonPressed]);
-  
 
   const pageEntranceVariants = {
     hidden: { opacity: 0, y: -20 },

@@ -1,9 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ConfirmButtonProps } from '../Shared/interfaces';
 
-interface ConfirmButtonProps {
-  onClick: () => void;
-}
+
 
 const ConfirmButton: React.FC<ConfirmButtonProps> = ({ onClick }) => {
   const buttonVariants = {

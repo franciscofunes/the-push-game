@@ -1,10 +1,5 @@
-"use client"
 import React from 'react';
-
-interface ScoreLevelSectionProps {
-  score: number;
-  level: number;
-}
+import { ScoreLevelSectionProps } from '../Shared/interfaces';
 
 const ScoreLevelSection: React.FC<ScoreLevelSectionProps> = ({ score, level }) => {
   return (
