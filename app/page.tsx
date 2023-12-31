@@ -46,7 +46,7 @@ const Home: React.FC = () => {
       variants={pageEntranceVariants}
     >
       <div className="flex flex-col items-center gap-4">
-        <Title text="The Push Game" animate={true} />
+        <Title text="Popit Game" animate={true} />
 
         {/* Mode Selection */}
         <ModeSelection selectedMode={selectedMode} onSelectMode={selectMode} />

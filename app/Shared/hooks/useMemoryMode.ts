@@ -12,6 +12,7 @@ const useMemoryMode = () => {
   const [confirmPattern, setConfirmPattern] = useState<boolean[]>([]);
   const [locked, setLocked] = useState(false);
   const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = useState(true);
+  const [lives, setLives] = useState(3);
 
   const turnOffAllLights = () => {
     console.log('Turning off all lights');
@@ -42,6 +43,12 @@ const useMemoryMode = () => {
       console.log('Correct pattern! Keep it going!');
     } else {
       console.log('Incorrect pattern! Try again.');
+      setLives((prevLives) => prevLives - 1); 
+
+      if (lives === 0) {
+        // No more lives, reset the game
+        resetGame();
+      }
     }
 
     startMemoryMode()
@@ -128,6 +135,7 @@ const useMemoryMode = () => {
     setUserInput([]);
     setGamePhase('initial');
     setConfirmPattern([]);
+    setLives(3); // Reset lives to the initial value
   };
 
   useEffect(() => {

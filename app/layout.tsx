@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ['latin'] })
 import { Press_Start_2P } from 'next/font/google';
 
 export const metadata: Metadata = {
-  title: 'The Push Game',
+  title: 'Popit Game',
   description: 'A pop it fidget game',
 }
 
