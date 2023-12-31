@@ -13,7 +13,6 @@ const useMemoryMode = () => {
   const [locked, setLocked] = useState(false);
   const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = useState(true);
 
-
   const turnOffAllLights = () => {
     console.log('Turning off all lights');
     setLights(Array(10).fill(false));
@@ -24,11 +23,12 @@ const useMemoryMode = () => {
     await delay(1000);
     turnOffAllLights();
 
+    setUserInput(Array(10).fill(false));
+
     if (gamePhase !== 'lightingButtons') {
       setGamePhase('lightingButtons');
     }
   };
-
 
   const evaluateMemoryPattern = async () => {
     console.log('Generated Pattern:', generatedPattern);
@@ -60,7 +60,7 @@ const useMemoryMode = () => {
   const generatePattern = (): Promise<void> => {
     return new Promise((resolve) => {
       const newPattern = Array(10).fill(false).map(() => Math.random() > 0.5);
-      console.log('new pattern', newPattern);
+      
       setGeneratedPattern(newPattern);
       resolve();
     });
@@ -101,14 +101,23 @@ const useMemoryMode = () => {
 
   const handleUserInput = (index: number) => {
     if (gamePhase === 'userInput') {
-      const updatedInput = [...userInput];
-      updatedInput.push(lights[index]);
-      setUserInput(updatedInput);
-
-      if (updatedInput.length === generatedPattern.length) {
-        setGamePhase('confirmPattern');
-        setConfirmPattern(updatedInput);
-      }
+      setUserInput((prevInput) => {
+        // Create a copy of the previous state with fixed length 10
+        const updatedInput = Array.from({ length: 10 }, (_, i) => prevInput[i] || false);
+        updatedInput[index] = !prevInput[index];  // Toggle the clicked position
+  
+        // Check if the user has clicked all lit positions
+        const isInputComplete = generatedPattern.every((value, index) => (value ? updatedInput[index] : true));
+  
+        // setIsConfirmButtonDisabled(!isInputComplete);
+  
+        if (isInputComplete) {
+          setGamePhase('confirmPattern');
+          setConfirmPattern(updatedInput);
+        }
+  
+        return updatedInput;
+      });
     }
   };
 
