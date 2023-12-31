@@ -11,6 +11,8 @@ const useMemoryMode = () => {
   const [gamePhase, setGamePhase] = useState<GamePhase>('initial');
   const [confirmPattern, setConfirmPattern] = useState<boolean[]>([]);
   const [locked, setLocked] = useState(false);
+  const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = useState(true);
+
 
   const turnOffAllLights = () => {
     console.log('Turning off all lights');
@@ -20,7 +22,7 @@ const useMemoryMode = () => {
   const startMemoryMode = async () => {
     await generatePattern();
     await delay(1000);
-    turnOffAllLights()
+    turnOffAllLights();
 
     if (gamePhase !== 'lightingButtons') {
       setGamePhase('lightingButtons');
@@ -90,6 +92,7 @@ const useMemoryMode = () => {
 
     setLocked(false); // Unlock UI buttons
     setGamePhase('userInput');
+    setIsConfirmButtonDisabled(false);
   };
 
   const lightUpButtons = async () => {
@@ -121,6 +124,7 @@ const useMemoryMode = () => {
   useEffect(() => {
     const runLightUpButtons = async () => {
       if (gamePhase === 'lightingButtons') {
+        setIsConfirmButtonDisabled(true);
         await lightUpButtons();
       }
     };
@@ -137,6 +141,7 @@ const useMemoryMode = () => {
     evaluateMemoryPattern,
     handleUserInput,
     resetGame,
+    isConfirmButtonDisabled
   };
 };
 

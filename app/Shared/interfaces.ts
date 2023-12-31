@@ -11,6 +11,7 @@ export interface ScoreLevelSectionProps {
 
 export interface ConfirmButtonProps {
   onClick: () => void;
+  disabled: boolean;
 }
 
 export interface ScoreLevelSectionProps {
