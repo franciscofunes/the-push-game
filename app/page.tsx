@@ -21,7 +21,8 @@ const Home: React.FC = () => {
     startMemoryMode,
     evaluateMemoryPattern,
     handleUserInput,
-    isConfirmButtonDisabled
+    isConfirmButtonDisabled,
+    lives
   } = useMemoryMode();
 
   const [confirmButtonPressed, handleConfirmButtonClick] = usePatternVerification({
@@ -62,7 +63,7 @@ const Home: React.FC = () => {
         <ConfirmButton onClick={handleConfirmButtonClick} disabled={isConfirmButtonDisabled}/>
 
         {/* Score and Level Section */}
-        <ScoreLevelSection score={score} level={level} />
+        <ScoreLevelSection score={score} level={level} lives={lives} />
       </div>
     </motion.main>
   );

@@ -15,7 +15,6 @@ const useMemoryMode = () => {
   const [lives, setLives] = useState(3);
 
   const turnOffAllLights = () => {
-    console.log('Turning off all lights');
     setLights(Array(10).fill(false));
   };
 
@@ -32,20 +31,15 @@ const useMemoryMode = () => {
   };
 
   const evaluateMemoryPattern = async () => {
-    console.log('Generated Pattern:', generatedPattern);
-    console.log('User Input:', userInput);
-
     const isPatternMatched = userInput.every((input, index) => input === generatedPattern[index]);
 
     if (isPatternMatched) {
       setScore((prevScore) => prevScore + 10);
       setLevel((prevLevel) => prevLevel + 1);
-      console.log('Correct pattern! Keep it going!');
     } else {
-      console.log('Incorrect pattern! Try again.');
+      console.log(lives)
       setLives((prevLives) => prevLives - 1); 
-
-      if (lives === 0) {
+      if (lives <= 0) {
         // No more lives, reset the game
         resetGame();
       }
@@ -158,7 +152,8 @@ const useMemoryMode = () => {
     evaluateMemoryPattern,
     handleUserInput,
     resetGame,
-    isConfirmButtonDisabled
+    isConfirmButtonDisabled,
+    lives
   };
 };
 
