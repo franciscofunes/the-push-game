@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { GameMode } from '../Shared/types';
-import { PlayIcon } from '@heroicons/react/24/solid';
 
 type ModeSelectionProps = {
   selectedMode: GameMode;
@@ -21,18 +20,17 @@ const ModeSelection: React.FC<ModeSelectionProps> = ({ selectedMode, onSelectMod
   };
 
   return (
-    <div className="flex m-2 gap-2 m-5">
+    <div className="flex flex-wrap justify-center m-2 md:m-5">
       {modes.map(({ mode, label }) => (
         <motion.button
           key={mode}
           className={`${selectedMode === mode ? 'bg-blue-500 text-white' : ''
-            } text-sm px-2 py-1 rounded cursor-pointer flex items-center`}
+            } text-xs md:text-sm px-2 py-1 rounded cursor-pointer`}
           onClick={() => onSelectMode(mode as GameMode)}
           variants={buttonVariants}
           whileTap="tap"
         >
           {label}
-          <PlayIcon className="w-5 h-5 text-white-500 " role="button" />
         </motion.button>
       ))}
     </div>

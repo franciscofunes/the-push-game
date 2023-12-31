@@ -12,30 +12,21 @@ const useMemoryMode = () => {
   const [confirmPattern, setConfirmPattern] = useState<boolean[]>([]);
   const [locked, setLocked] = useState(false);
 
-  const maxLevels = 5; // Set your desired maximum levels
-
   const turnOffAllLights = () => {
     console.log('Turning off all lights');
     setLights(Array(10).fill(false));
   };
 
-  // const startMemoryMode = async () => {
-  //   await generatePattern();
-  //   await delay(1000);
-
-  //   setGamePhase('lightingButtons');
-  //   await lightUpButtons();
-  // };
-
   const startMemoryMode = async () => {
     await generatePattern();
     await delay(1000);
-  
+    turnOffAllLights()
+
     if (gamePhase !== 'lightingButtons') {
       setGamePhase('lightingButtons');
     }
   };
-  
+
 
   const evaluateMemoryPattern = async () => {
     console.log('Generated Pattern:', generatedPattern);
@@ -46,27 +37,12 @@ const useMemoryMode = () => {
     if (isPatternMatched) {
       setScore((prevScore) => prevScore + 10);
       setLevel((prevLevel) => prevLevel + 1);
-
-      if (level < maxLevels) {
-        await delay(1000)
-
-        setGamePhase('roundStart');
-        await generatePattern();
-        await lightUpButtons();
-      } else {
-        setGamePhase('gameOver');
-      }
-
       console.log('Correct pattern! Keep it going!');
     } else {
       console.log('Incorrect pattern! Try again.');
-      await delay(1000);
-
-      setGamePhase('roundStart');
-      await generatePattern();
-
-      await lightUpButtons();
     }
+
+    startMemoryMode()
 
     return isPatternMatched;
   };
@@ -88,20 +64,10 @@ const useMemoryMode = () => {
     });
   };
 
-
-  const handleInitialPhase = async () => {
-    if (level > 1) {
-      setGamePhase('lightingButtons');
-      setLights(generatedPattern); // Set lights based on the generated pattern
-      await lightUpButtons();
-    }
-  };
-
-  const lightUpButtons = async () => {
+  const animateLights = async () => {
     setLocked(true); // Lock the UI buttons during animation
 
     for (let index = 0; index < generatedPattern.length; index++) {
-
       if (gamePhase === 'confirmPattern') {
         setLocked(false); // Unlock UI buttons
         return;
@@ -120,12 +86,14 @@ const useMemoryMode = () => {
 
         return updatedLights;
       });
-
     }
 
     setLocked(false); // Unlock UI buttons
     setGamePhase('userInput');
-    turnOffAllLights();
+  };
+
+  const lightUpButtons = async () => {
+    await animateLights();
   };
 
   const handleUserInput = (index: number) => {
@@ -150,17 +118,13 @@ const useMemoryMode = () => {
     setConfirmPattern([]);
   };
 
-  // useEffect(() => {
-  //   handleInitialPhase();
-  // }, [level]);
-
   useEffect(() => {
     const runLightUpButtons = async () => {
       if (gamePhase === 'lightingButtons') {
         await lightUpButtons();
       }
     };
-  
+
     runLightUpButtons();
   }, [gamePhase]);
 
