@@ -13,6 +13,8 @@ const useMemoryMode = () => {
   const [locked, setLocked] = useState(false);
   const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = useState(true);
   const [lives, setLives] = useState(3);
+  const [lightSpeed, setLightSpeed] = useState(400); // Initial light speed
+
 
   const turnOffAllLights = () => {
     setLights(Array(10).fill(false));
@@ -38,11 +40,7 @@ const useMemoryMode = () => {
       setLevel((prevLevel) => prevLevel + 1);
     } else {
       console.log(lives)
-      setLives((prevLives) => prevLives - 1); 
-      if (lives <= 0) {
-        // No more lives, reset the game
-        resetGame();
-      }
+      setLives((prevLives) => prevLives - 1);
     }
 
     startMemoryMode()
@@ -61,7 +59,7 @@ const useMemoryMode = () => {
   const generatePattern = (): Promise<void> => {
     return new Promise((resolve) => {
       const newPattern = Array(10).fill(false).map(() => Math.random() > 0.5);
-      
+
       setGeneratedPattern(newPattern);
       resolve();
     });
@@ -81,7 +79,7 @@ const useMemoryMode = () => {
       setLights(updatedLights);
 
       // Light speed
-      await delay(400);
+      await delay(lightSpeed);
 
       setLights((prevLights) => {
         const updatedLights = [...prevLights];
@@ -106,17 +104,18 @@ const useMemoryMode = () => {
         // Create a copy of the previous state with fixed length 10
         const updatedInput = Array.from({ length: 10 }, (_, i) => prevInput[i] || false);
         updatedInput[index] = !prevInput[index];  // Toggle the clicked position
-  
+
         // Check if the user has clicked all lit positions
         const isInputComplete = generatedPattern.every((value, index) => (value ? updatedInput[index] : true));
-  
-        // setIsConfirmButtonDisabled(!isInputComplete);
-  
+
         if (isInputComplete) {
           setGamePhase('confirmPattern');
           setConfirmPattern(updatedInput);
+
+          // Decrease light speed by three points
+          setLightSpeed((prevSpeed) => prevSpeed - 3);
         }
-  
+        
         return updatedInput;
       });
     }
@@ -143,6 +142,22 @@ const useMemoryMode = () => {
     runLightUpButtons();
   }, [gamePhase]);
 
+  useEffect(() => {
+    if (lives <= 0) {
+      // No more lives, reset the game
+      resetGame();
+    } else {
+      // Start memory mode after updating the state
+      startMemoryMode();
+    }
+  }, [lives]);
+ 
+  useEffect(() => {
+    // ... (existing useEffect)
+
+    // Reset light speed to the initial value when starting a new round
+    setLightSpeed(400);
+  }, [gamePhase]);
   return {
     lights,
     score,

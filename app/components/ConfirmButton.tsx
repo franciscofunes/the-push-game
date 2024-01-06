@@ -18,7 +18,7 @@ const ConfirmButton: React.FC<ConfirmButtonProps> = ({ onClick, disabled }) => {
       whileTap="press"
       disabled={disabled}
     >
-      Confirm
+      popit
     </motion.button>
   );
 };
