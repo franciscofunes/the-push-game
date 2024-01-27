@@ -41,12 +41,11 @@ const Home: React.FC = () => {
 
   return (
     <motion.main
-      className="flex flex-col justify-center items-center"
       initial="hidden"
       animate="visible"
       variants={pageEntranceVariants}
     >
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col justify-center items-center gap-4">
         <Title text="Popit Game" animate={true} />
 
         {/* Mode Selection */}
