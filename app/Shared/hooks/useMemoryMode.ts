@@ -39,7 +39,6 @@ const useMemoryMode = () => {
       setScore((prevScore) => prevScore + 10);
       setLevel((prevLevel) => prevLevel + 1);
     } else {
-      console.log(lives)
       setLives((prevLives) => prevLives - 1);
     }
 
