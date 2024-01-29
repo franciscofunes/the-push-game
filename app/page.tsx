@@ -1,95 +1,71 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client"
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import ModeSelection from './components/ModeSelection';
+import PushButtonsPanel from './components/PushButtonsPanel';
+import ScoreLevelSection from './components/ScoreLevelSection';
+import Title from './components/Title';
+import { GameMode } from './Shared/types';
+import ConfirmButton from './components/ConfirmButton';
+import useMemoryMode from './Shared/hooks/useMemoryMode';
+import usePatternVerification from './Shared/hooks/usePatternVerification';
 
-export default function Home() {
+const Home: React.FC = () => {
+  const [selectedMode, setSelectedMode] = useState('memory' as GameMode);
+
+  const {
+    lights,
+    score,
+    level,
+    handleMemoryButtonClick,
+    startMemoryMode,
+    evaluateMemoryPattern,
+    handleUserInput,
+    isConfirmButtonDisabled,
+    lives
+  } = useMemoryMode();
+
+  const [confirmButtonPressed, handleConfirmButtonClick] = usePatternVerification({
+    evaluatePattern: evaluateMemoryPattern,
+  });
+
+  const selectMode = (mode: GameMode) => {
+    setSelectedMode(mode);
+    startMemoryMode(); // Start the game when selecting a mode
+  };
+
+  const pageEntranceVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <motion.main
+      initial="hidden"
+      animate="visible"
+      variants={pageEntranceVariants}
+    >
+      <div className="flex flex-col justify-center items-center gap-4">
+        <Title text="Popit Game" animate={true} />
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+        {/* Mode Selection */}
+        <ModeSelection selectedMode={selectedMode} onSelectMode={selectMode} />
+
+        {/* Push Buttons Panel */}
+        <PushButtonsPanel
+          lights={lights}
+          onButtonClick={handleMemoryButtonClick}
+          onUserInput={handleUserInput} // Pass the handleUserInput function
         />
+
+        {/* Confirm Button */}
+        <ConfirmButton onClick={handleConfirmButtonClick} disabled={isConfirmButtonDisabled}/>
+
+        {/* Score and Level Section */}
+        <ScoreLevelSection score={score} level={level} lives={lives} />
       </div>
+    </motion.main>
+  );
+};
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+export default Home;
